@@ -34,16 +34,25 @@ stdenv.mkDerivation {
     ];
 
   postPatch = ''
+    sed -i -e '152d;164d;166d' Makefile
     substituteInPlace ./Makefile \
-      --replace /lib/modules/ "${kernel.dev}/lib/modules/" \
-      --replace "/sbin/depmod" "#" \
-      --replace '$(MODDESTDIR)' "$out/lib/modules/${kernel.modDirVersion}/kernel/net/wireless/" 
-    sed -i -e '152d;164d' Makefile
-
+      --replace-warn /lib/modules/ "${kernel.dev}/lib/modules/" \
+      --replace-warn /sbin/depmod \# \
+      --replace-warn '$(MODDESTDIR)' "$out/lib/modules/${kernel.modDirVersion}/kernel/drivers/net/wireless/" 
   '';
 
   preInstall = ''
-    mkdir -p "$out/lib/modules/${kernel.modDirVersion}/kernel/net/wireless/"
+    mkdir -p "$out/lib/modules/${kernel.modDirVersion}/kernel/drivers/net/wireless/realtek/rtl8188eu"
+    mkdir -p "$out/lib/firmware/rtlwifi"
+  '';
+
+  installPhase = ''
+  mkdir -p $out/lib/modules/${kernel.modDirVersion}/kernel/drivers/net/wireless/
+  install -p -m 644 8188eu.ko  $out/lib/modules/${kernel.modDirVersion}/kernel/drivers/net/wireless/
+  if [ -a $out/lib/modules/${kernel.modDirVersion}/kernel/drivers/staging/rtl8188eu/r8188eu.ko ] ; then modprobe -r r8188eu; fi;
+  
+  mkdir -p $out/nix-support
+  echo "file firmware $out/lib/firmware/rtlwifi/rtl8188eufw.bin" >> $out/nix-support/firmware
   '';
 
   enableParallelBuilding = true;
