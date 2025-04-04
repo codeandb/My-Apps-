@@ -4,22 +4,26 @@
   fetchFromGitHub,
   kernel,
   bc,
+  linuxHeaders,
 }:
 
 stdenv.mkDerivation {
   pname = "rtl8188eu";
-  version = "unstable-2023-07-29";  # Matches driver version
+  version = "5.2.2.4.r794.53ed527"; # Matches driver version
 
   src = fetchFromGitHub {
     owner = "lwfinger";
     repo = "rtl8188eu";
-    rev = "f5d1c8df2e2d8b217ea0113bf2cf3e37df8cb716";  # Check if tag exists, otherwise use commit hash
+    rev = "f5d1c8df2e2d8b217ea0113bf2cf3e37df8cb716"; # Check if tag exists, otherwise use commit hash
     sha256 = "sha256-qE9P8AJu7BS/XJzXiwZt/XzrSvbAiYsfy5PM91KOQ2g="; # Use `nix hash to-sri sha256:$(nix-prefetch-url --unpack $url)`
   };
 
   hardeningDisable = [ "pic" ];
 
-  nativeBuildInputs = [ bc ] ++ kernel.moduleBuildDependencies;
+  nativeBuildInputs = [
+    bc
+    linuxHeaders
+  ] ++ kernel.moduleBuildDependencies;
 
   makeFlags =
     [
@@ -33,7 +37,9 @@ stdenv.mkDerivation {
     substituteInPlace ./Makefile \
       --replace /lib/modules/ "${kernel.dev}/lib/modules/" \
       --replace "/sbin/depmod" "#" \
-      --replace '$(MODDESTDIR)' "$out/lib/modules/${kernel.modDirVersion}/kernel/net/wireless/"
+      --replace '$(MODDESTDIR)' "$out/lib/modules/${kernel.modDirVersion}/kernel/net/wireless/" 
+    sed -i -e '152d;164d' Makefile
+
   '';
 
   preInstall = ''
