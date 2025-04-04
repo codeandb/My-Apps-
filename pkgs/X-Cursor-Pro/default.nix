@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchFromGitHub,
+  pkgs,
 }:
 
 stdenv.mkDerivation rec {
@@ -14,7 +15,16 @@ stdenv.mkDerivation rec {
     rev = "v${version}";
     hash = "sha256-vKNvTyJ50vHXoRsalmkityP7Dnf1KkD2uq13kgWniQY=";
   };
-  
+ 
+ dontUnpack = true;
+ 
+ nativeBuildInputs = [ pkgs.gnutar ]; 
+
+ installPhase = ''
+   mkdir -p $out
+   ${pkgs.gnutar}/bin/gnutar -xf $src -C $out/
+ '';
+
   meta = {
     description = "Modern XCursors";
     homepage = "https://github.com/ful1e5/XCursor-pro/";
