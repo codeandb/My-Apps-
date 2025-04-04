@@ -16,7 +16,7 @@
 
   #example-package = pkgs.callPackage ./pkgs/example-package { };
   #rtl8188eu = pkgs.callPackage ./pkgs/rtl8188eu { };
-  x-cursor-pro = pkgs.callPackage ./pkgs/X-Cursor-Pro/ { };
+  x-cursor-pro = pkgs.callPackage ./pkgs/X-Cursor-Pro { };
   # some-qt5-package = pkgs.libsForQt5.callPackage ./pkgs/some-qt5-package { };
   # ...
 }
