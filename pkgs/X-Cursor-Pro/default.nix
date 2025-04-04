@@ -1,7 +1,7 @@
 {
   lib,
   stdenv,
-  fetchFromGitHub,
+  fetchurl,
   pkgs,
 }:
 
@@ -9,11 +9,9 @@ stdenv.mkDerivation rec {
   pname = "x-cursor-pro";
   version = "2.0.2";
 
-  src = fetchFromGitHub {
-    owner = "ful1e5";
-    repo = "XCursor-pro";
-    rev = "v${version}";
-    hash = "sha256-vKNvTyJ50vHXoRsalmkityP7Dnf1KkD2uq13kgWniQY=";
+  src = fetchurl {
+    url = "https://github.com/ful1e5/XCursor-pro/releases/download/v${version}/xcursor-pro-all.tar.xz";
+    sha256 = "0xhkq2x6bzmv2skfsk6m5rsx49x72qz27n8857avlxlx3h3lq1cy";
   };
  
  dontUnpack = true;
