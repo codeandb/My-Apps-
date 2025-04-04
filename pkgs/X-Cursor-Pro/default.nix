@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/ful1e5/XCursor-pro/";
     changelog = "https://github.com/ful1e5/XCursor-pro/blob/${src.rev}/CHANGELOG.md";
     license = lib.licenses.gpl3Only;
-    maintainers = with lib.maintainers; [ ];
+    maintainers = with lib.maintainers; [ codeandb ];
     mainProgram = "x-cursor-pro";
     platforms = lib.platforms.all;
   };
