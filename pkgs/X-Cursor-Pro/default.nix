@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
 
  installPhase = ''
    mkdir -p $out
-   ${pkgs.gnutar}/bin/tar -xf $src/ -C $out/
+   ${pkgs.gnutar}/bin/tar -xf $src -C $out/
  '';
 
   meta = {
