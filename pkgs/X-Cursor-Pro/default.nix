@@ -14,14 +14,14 @@ stdenv.mkDerivation rec {
     sha256 = "0xhkq2x6bzmv2skfsk6m5rsx49x72qz27n8857avlxlx3h3lq1cy";
   };
  
-# dontUnpack = true;
+ dontUnpack = true;
  
  nativeBuildInputs = [ pkgs.gnutar ]; 
 
  installPhase = ''
- runHook preInstall
  mkdir -p $out/share/icons
- mv -rf XCursor-pro $out/share/icons
+ tar xf $src
+ mv -rf $src/XCursor-pro $out/share/icons
  runHook postInstall
  '';
 
