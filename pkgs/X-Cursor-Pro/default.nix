@@ -3,7 +3,6 @@
   stdenv,
   fetchurl,
   pkgs,
-  theme,
 }:
 
 stdenv.mkDerivation rec {
@@ -20,8 +19,10 @@ stdenv.mkDerivation rec {
  nativeBuildInputs = [ pkgs.gnutar ]; 
 
  installPhase = ''
-   mkdir -p $out/share/icons/${theme}
-   cp -r ${theme}/{cursors,index.theme} $out/share/icons/${theme}
+ runHook preInstall
+ mkdir -p $out/share/icons
+ cp -a XCursor-pro $out/share/icons
+ runHook postInstall
  '';
 
   meta = {
