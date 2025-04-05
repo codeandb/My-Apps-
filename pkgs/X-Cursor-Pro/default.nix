@@ -3,6 +3,7 @@
   stdenv,
   fetchurl,
   pkgs,
+  theme,
 }:
 
 stdenv.mkDerivation rec {
@@ -14,13 +15,13 @@ stdenv.mkDerivation rec {
     sha256 = "0xhkq2x6bzmv2skfsk6m5rsx49x72qz27n8857avlxlx3h3lq1cy";
   };
  
- dontUnpack = true;
+# dontUnpack = true;
  
  nativeBuildInputs = [ pkgs.gnutar ]; 
 
  installPhase = ''
-   mkdir -p $out
-   ${pkgs.gnutar}/bin/tar -xf $src -C $out/
+   mkdir -p $out/share/icons/${theme}
+   cp -r ${theme}/{cursors,index.theme} $out/share/icons/${theme}
  '';
 
   meta = {
