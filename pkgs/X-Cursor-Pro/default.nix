@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
  installPhase = ''
  runHook preInstall
  mkdir -p $out/share/icons
- cp -a XCursor-pro $out/share/icons
+ mv -rf XCursor-pro $out/share/icons
  runHook postInstall
  '';
 
